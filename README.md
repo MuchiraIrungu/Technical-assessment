@@ -346,10 +346,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact & Support
 
-**Developer**: Muchira Irungu  
-**GitHub**: [@MuchiraIrungu](https://github.com/MuchiraIrungu)  
-**Email**: [Your Email]  
-**LinkedIn**: [Your LinkedIn Profile]
+**Developer**: Muchira Irungu   
+**LinkedIn**: www.linkedin.com/in/muchira-irungu
 
 ### Getting Help
 - 🐛 **Bug Reports**: Create an issue with the bug template
@@ -360,4 +358,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **⭐ If you found this project helpful, please consider giving it a star!**
 
-*Last updated: [Current Date]*
+*Last updated: 13/08/2025*
