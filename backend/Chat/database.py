@@ -10,7 +10,7 @@ from Authentication.database import Base, engine
 Base.metadata.create_all(bind=engine, tables=[Conversation.__table__])
 
 #Postgresql connection
-DATABASE_URL = "postgresql://postgres:1122@localhost:5432/sms"
+DATABASE_URL = "postgresql://postgres:<password>@localhost:5432/<your-database-name>"
 
 #PostgreSQL engine instance
 engine = create_engine(DATABASE_URL)
