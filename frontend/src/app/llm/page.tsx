@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../constants/navbar";
 import Sidebar from "../constants/sidebar";
 
@@ -11,6 +11,21 @@ interface Message {
 const Chat = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [token, setToken] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure we're on the client side before using localStorage
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Load token from localStorage safely in the browser
+  useEffect(() => {
+    if (isClient && typeof window !== 'undefined') {
+      const authtoken = localStorage.getItem("authToken");
+      setToken(authtoken);
+    }
+  }, [isClient]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,23 +35,23 @@ const Chat = () => {
     // Add user message to chat
     setMessages((prev) => [...prev, { sender: "user", text: input }]);
 
-    
+    const currentInput = input;
     setInput(""); // clear input box
-    const token = localStorage.getItem("authToken");
     console.log("Token sent in request:", token);
 
     try {
       const response = await fetch("http://localhost:8001/chat/input", {
         method: "POST",
-        headers: { "Content-Type": "application/json", 
-                    "Authorization": `Bearer ${token}` },
-        body: JSON.stringify({ input }),
+        headers: { 
+          "Content-Type": "application/json", 
+          "Authorization": `Bearer ${token}` 
+        },
+        body: JSON.stringify({ input: currentInput }),
       });
 
       if (!response.ok) throw new Error("Network error");
 
       const data = await response.json();
-
       
       setMessages((prev) => [...prev, { sender: "ai", text: data.output }]);
     } catch (error) {
@@ -47,6 +62,11 @@ const Chat = () => {
       ]);
     }
   };
+
+  // Don't render until we're on the client to avoid hydration issues
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <main
@@ -98,6 +118,7 @@ const Chat = () => {
                 padding: "10px 15px",
                 borderRadius: "15px",
                 maxWidth: "70%",
+                wordWrap: "break-word",
               }}
             >
               {msg.text}
@@ -131,13 +152,14 @@ const Chat = () => {
           />
           <button
             type="submit"
+            disabled={!input.trim() || !token}
             style={{
               padding: "10px 15px",
-              backgroundColor: "#0077b6",
+              backgroundColor: !input.trim() || !token ? "#ccc" : "#0077b6",
               color: "white",
               border: "none",
               borderRadius: "8px",
-              cursor: "pointer",
+              cursor: !input.trim() || !token ? "not-allowed" : "pointer",
             }}
           >
             Send

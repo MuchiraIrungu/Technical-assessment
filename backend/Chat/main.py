@@ -15,6 +15,7 @@ from jose import JWTError, jwt
 from typing import List, Optional
 from datetime import datetime
 from .database import Base, engine, LocalSession
+from fastapi import Header
 
 #database initialization
 Base.metadata.create_all(engine)  
@@ -78,11 +79,13 @@ class ChatHistoryResponse(BaseModel):
 
 # Authentication
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_session)):
-    print(f"Verifying token...")
+    print(f"Verifying token...", token)
+
     try:
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
-        
+
         username: str = payload.get("sub")
+        print("Verified username:", username)
         if username is None:
             raise HTTPException(status_code=401, detail="Invalid token")
     except JWTError as e:

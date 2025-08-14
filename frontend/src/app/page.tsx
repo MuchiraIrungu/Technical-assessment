@@ -49,9 +49,9 @@ export default function Home() {
           flexDirection:'column',
           alignContent:'center'
         }}>
-          <h1 style={{fontSize:'2.4rem', fontWeight:'bold', alignItems:'center',textShadow: '0 0 10px #415a77,0 0 20px #415a77,0 0 30px #415a77;'}} className={orbitron.className}>TRANSFORM YOUR DATA INTO INSIGHTS</h1>
+          <h1 style={{fontSize:'2.4rem', fontWeight:'bold', alignItems:'center',textShadow: '0 0 10px #415a77,0 0 20px #415a77,0 0 30px #415a77'}} className={orbitron.className}>TRANSFORM YOUR DATA INTO INSIGHTS</h1>
           <p className={lexend.className}>Unleash the Power of AI with our interactive Q&A</p>
-          <span style={{fontSize:'1.2rem', color:'#0096c7',textShadow: '0 0 10px #ade8f4,0 0 20px #ade8f4,0 0 30px #ade8f4;', fontWeight:'bold'}} className={orbitron.className}>Intelligent. Instant. Intuitive.</span>
+          <span style={{fontSize:'1.2rem', color:'#0096c7',textShadow: '0 0 10px #ade8f4,0 0 20px #ade8f4,0 0 30px #ade8f4', fontWeight:'bold'}} className={orbitron.className}>Intelligent. Instant. Intuitive.</span>
 
           <br />
           <div className="buttons" 

@@ -1,6 +1,9 @@
+"use client";
 import { Orbitron } from "next/font/google";
 import { Lexend } from "next/font/google";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const orbitron = Orbitron({
     subsets:["latin"],
@@ -12,8 +15,26 @@ const lexend = Lexend({
     weight:['400','500','700'] 
 }) 
 
-const loggedIn = localStorage.getItem("authToken") !== null;
+
+
 const Navbar =() =>{
+
+    const [loggedIn, setLoggedIn] = useState(false);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const token = localStorage.getItem("authToken");
+            if (token) {
+                setLoggedIn(true);
+            }
+            else {
+                setLoggedIn(false);
+            }
+        }
+    }, [router]);
+
+
     return(
         <main style={{position:'absolute', 
                         top:'0', 
@@ -72,7 +93,7 @@ const Navbar =() =>{
                             <Link href="/login">Login</Link>
                             </li>
                             <li className={orbitron.className}>
-                            <Link href="/signup">SignUp</Link>
+                            <Link href="/register">SignUp</Link>
                             </li>
                         </>
                         )}

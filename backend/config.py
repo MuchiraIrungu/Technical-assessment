@@ -6,6 +6,11 @@ from datetime import datetime, timedelta, timezone
 from typing import Union, Any
 from jose import jwt, JWTError
 from fastapi import APIRouter, HTTPException
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 
 # API Configuration
 GEMINI_API_KEY = "AIzaSyCdT-w7KvzwNdcjz-x8IucAcaBZBXaxWEU"
@@ -16,8 +21,8 @@ REFRESH_TOKEN_EXPIRE_DAYS = 7
 ALGORITHM = "HS256"
 
 # Use fixed secret keys instead of random ones
-JWT_SECRET_KEY = "your-super-secret-jwt-key-keep-this-safe-and-consistent"
-JWT_REFRESH_SECRET_KEY = "your-super-secret-refresh-key-keep-this-safe-and-consistent"
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+JWT_REFRESH_SECRET_KEY = os.getenv("JWT_REFRESH_SECRET_KEY")
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -31,20 +36,24 @@ def verify_password(password: str, hashed_password: str) -> bool:
     return pwd_context.verify(password, hashed_password)
 
 def create_access_token(subject: Union[str, Any], expires_delta: timedelta = None) -> str:
-    """Create a JWT access token."""
+    """Create a JWT access token with robust expiration handling."""
+    now = datetime.now(timezone.utc)  # Use aware UTC datetime
     if expires_delta is not None:
-        expire = datetime.utcnow() + expires_delta
+        expire = now + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = now + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     
-    # Use integer timestamp instead of float for better compatibility
+    # Convert to integer timestamp
     to_encode = {"exp": int(expire.timestamp()), "sub": str(subject)}
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
 
-    #debug auth issue
-    print("UTC Now:", datetime.utcnow())
-    print("Unix Time:", int(datetime.utcnow().timestamp()))
+    # Debug logging
+    print("Access token created")
+    print("UTC now:", now)
+    print("Expires at:", expire)
+    print("Encoded JWT:", encoded_jwt)
+
+    return encoded_jwt
 
 
 def create_refresh_token(subject: Union[str, Any], expires_delta: timedelta = None) -> str:
