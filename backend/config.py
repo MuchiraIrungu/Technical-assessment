@@ -13,7 +13,7 @@ load_dotenv()
 
 
 # API Configuration
-GEMINI_API_KEY = "AIzaSyCdT-w7KvzwNdcjz-x8IucAcaBZBXaxWEU"
+GEMINI_API_KEY = "your-gemini-api-key"
 
 # JWT Configuration - FIXED: Use consistent keys
 ACCESS_TOKEN_EXPIRE_MINUTES = 30

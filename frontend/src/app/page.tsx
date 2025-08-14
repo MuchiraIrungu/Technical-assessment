@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Orbitron } from "next/font/google";
 import { Lexend } from "next/font/google";
 import Navbar from "./constants/navbar";
+import {useRouter} from "next/router"
 
 const orbitron = Orbitron({ 
   subsets: ["latin"], 
@@ -14,6 +15,13 @@ const lexend = Lexend({
   weight: ['400', '500', '700'] // Choose weights you need
 })
 
+const router = useRouter();
+const login = () =>{
+  router.push('/login');
+  }
+const register = () =>{
+  router.push('/register');
+}
 
 
 export default function Home() {  
@@ -60,8 +68,8 @@ export default function Home() {
               flexDirection:'row',
               gap:'20px'
             }}>
-            <button className="landing-btn">Login</button>
-            <button className="landing-btn">SignUp</button>
+            <button onClick={login} className="landing-btn">Login</button>
+            <button onClick={register} className="landing-btn">SignUp</button>
         </div>
         </div>
         
